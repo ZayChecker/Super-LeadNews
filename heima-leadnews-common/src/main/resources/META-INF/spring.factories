@@ -1,0 +1,8 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.heima.common.exception.ExceptionCatch,\
+  com.heima.common.aliyun.GreenTextScan,\
+  com.heima.common.aliyun.GreenImageScan,\
+  com.heima.common.redis.CacheService
+
+## 只要有微服务去引入了common，在微服务去初始化spring容器的时候，它就会去找到这个文件，去把当前自动配置需要加载的类进行初始化（放到容器中）
+## 这样微服务就能去使用全局异常处理器了

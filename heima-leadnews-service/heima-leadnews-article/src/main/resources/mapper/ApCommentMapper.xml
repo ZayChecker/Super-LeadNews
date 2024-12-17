@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heima.article.mapper.ApCommentMapper">
+
+    <resultMap id="resultMap" type="com.heima.model.article.pojos.ApComment">
+        <id column="id" property="id"/>
+        <result column="author_id" property="authorId"/>
+        <result column="article_id" property="articleId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="content" property="content"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="is_delete" property="isDelete"/>
+    </resultMap>
+
+    <select id="loadComment" resultMap="resultMap">
+        SELECT *
+        FROM
+        ap_comment
+        <where>
+            and is_delete = 0
+            <if test="commentId != null">
+                and parent_id = #{commentId}
+            </if>
+            <choose>
+                <when test="type == 0">
+                    order by publish_time
+                </when>
+                <when test="type == 1">
+                    order by publish_time DESC
+                </when>
+                <otherwise>
+                    and author_id = #{authorId}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>
